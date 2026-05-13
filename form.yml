@@ -1,0 +1,31 @@
+---
+title: "COMSOL"
+cluster:
+  - 2e
+
+form:
+  - auto_modules_comsol
+  - license
+  - global_use_vglrun
+  - auto_accounts
+  - auto_queues
+  - global_bc_num_hours
+  - global_cores
+  - global_memory
+  - global_advanced
+  - global_sbatch_options
+  - bc_vnc_idle
+  - bc_vnc_resolution
+  - bc_email_on_started
+
+attributes:
+  bc_vnc_idle: 0
+  license: 0
+#    widget: check_box
+#    checked_value: 1
+#    unchecked_value: 0
+#    label: "Use ClassKit License (-ckl option)"
+#    help: |
+#      If you are using COMSOL for a class project, assignment, or other classroom related activity, use the ClassKit license.
+#      
+#      The smaller toolset of ClassKit version isn't approapriate for most research applications, but is designed to allow more users to run jobs concurrently without delay.

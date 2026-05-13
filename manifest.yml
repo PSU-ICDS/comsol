@@ -1,0 +1,11 @@
+---
+name: COMSOL Multiphysics
+category: Interactive Apps
+subcategory: Desktop Applications
+role: batch_connect
+metadata:
+  pintype: Interactive Apps
+description: |
+  Launch a [COMSOL Multiphysics] GUI through a VNC session.
+
+  [COMSOL Multiphysics]: https://www.comsol.com

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+#
+# Launch Xfce Window Manager and Panel
+#
+
+(
+  export SEND_256_COLORS_TO_REMOTE=1
+  export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+  export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+  export XDG_CACHE_HOME="$(mktemp -d)"
+  module restore
+  set -x
+  xfwm4 --compositor=off --sm-client-disable
+  xsetroot -solid "#D3D3D3"
+  xfsettingsd --sm-client-disable
+  xfce4-panel --sm-client-disable
+) &
+
+#
+# Start COMSOL Multiphysics
+#
+
+# Load the required environment
+module load <%= context.auto_modules_comsol %>
+module list
+
+# Launch COMSOL Multiphysics
+set -x
+
+# Define common variables
+COMSOL_CMD="comsol"
+VGLRUN_CMD="/usr/bin/vglrun"
+RENDER_OPTION="-3drend sw"
+LICENSE_OPTION="<%- if context.license == '1' -%> -ckl<%- end -%>"
+BATCH_OPTION=$([ "${SLURM_NNODES:-0}" -gt 1 ] && echo "-usebatchlic" || echo "")
+LOG_FILE="<%= session.staged_root.join('run.log') %>"
+
+# Determine the command to run
+if [ "<%= context.global_use_vglrun %>" == "1" ]; then
+  CMD="$VGLRUN_CMD $COMSOL_CMD $LICENSE_OPTION $BATCH_OPTION"
+else
+  CMD="$COMSOL_CMD $RENDER_OPTION $LICENSE_OPTION $BATCH_OPTION"
+fi
+
+# Execute the command and log output
+$CMD 2>&1 | tee "$LOG_FILE"
+APP_EXIT_CODE=${PIPESTATUS}
+{ set +x; } 2>/dev/null
+
+# Error handling
+if [[ ${APP_EXIT_CODE} -ne 0 ]]; then
+cat | xmessage -file - -center <<- EOL
+Exited with non-zero status (${APP_EXIT_CODE}):
+
+$(cat "$LOG_FILE")
+EOL
+fi
