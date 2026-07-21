@@ -3,6 +3,9 @@ title: "COMSOL"
 cluster:
   - 2e
 
+form_header: |
+  - **IMPORTANT** - Verify [COMSOL License](https://portal.hpc.psu.edu/pun/sys/dashboard/custom/comsol) availability prior to launch
+
 form:
   - auto_modules_comsol
   - license
