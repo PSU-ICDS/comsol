@@ -4,7 +4,9 @@ cluster:
   - 2e
 
 form_header: |
-  - **IMPORTANT** - Verify [COMSOL License](https://portal.hpc.psu.edu/pun/sys/dashboard/custom/comsol) availability prior to launch
+  <div class="alert alert-warning">
+    <strong>IMPORTANT</strong>: Verify <a href="https://portal.hpc.psu.edu/pun/sys/dashboard/custom/comsol">COMSOL License</a> availability prior to launch
+  </div>
 
 form:
   - auto_modules_comsol
